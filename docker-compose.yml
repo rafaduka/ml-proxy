@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+
+  proxy-service:
+    build:
+      context: proxy
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - redis
+      - control-service
+    command: --spring.profiles.active=development
+    networks:
+      - spring
+
+  control-service:
+    build:
+      context: control
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    restart: always
+    depends_on:
+      - mongo
+    command: --spring.profiles.active=development
+    networks:
+      - spring
+
+  # Redis
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    restart: always
+    networks:
+      - spring
+
+  mongo:
+    image: mongo:3.2.4
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - spring
+
+networks:
+  spring:
