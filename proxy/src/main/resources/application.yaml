@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: proxy-service
+---
+spring:
+  profiles: local, development
+
+server:
+  port: 8080
+
+zuul:
+  decodeUrl: false
+  routes:
+    api:
+      path: /**
+      url: https://api.mercadolibre.com/
+#  ratelimit:
+#    enabled: true
+#    repository: REDIS
+#    policy-list:
+#      api:
+#        - limit: 50000
+#          refresh-interval: 10
+#          type:
+#            - url
+#        - limit: 50
+#          refresh-interval: 10
+#          type:
+#            - origin
+#        - limit: 10
+#          refresh-interval: 60
+#          type:
+#            - origin
+#            - url
+---
+spring:
+  profiles: local
+
+control-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8081
+---
+spring:
+  profiles: development
+  redis:
+    host: redis
+
+control-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: control-service:8081

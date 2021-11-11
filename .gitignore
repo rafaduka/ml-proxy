@@ -1,0 +1,4 @@
+.idea/
+locust/.idea/
+locust/__pycache__/
+locust/venv/
