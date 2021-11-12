@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "e9f1f719-0ab7-4745-9c3d-75cb765e2501",
+		"name": "Meli-Proxy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consulta do uso do Proxy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/statistics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset das estatisticas",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/statistics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro de uma estatistica",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\":\"123\",\n    \"success\":1,\n    \"fail\":2,\n    \"limited\":3,\n    \"duration\":256,\n    \"total\":7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/statistics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

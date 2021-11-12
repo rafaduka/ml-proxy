@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: control-service
+
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_trace_param
+    include-exception: false
+---
+spring:
+  profiles: local
+---
+spring:
+  profiles: development
+  data:
+    mongodb:
+      host: mongo
+---
+spring:
+  profiles: development
+  redis:
+    host: redis
