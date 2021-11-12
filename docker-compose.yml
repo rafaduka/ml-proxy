@@ -18,7 +18,7 @@ services:
 
   control-service:
     build:
-      context: control
+      context: api-monitor
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
