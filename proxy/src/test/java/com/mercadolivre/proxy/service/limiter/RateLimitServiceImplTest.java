@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Sets;
 import com.mercadolivre.proxy.model.RateLimiterModel;
+import com.mercadolivre.proxy.properties.LimiterRateProperties;
 import com.mercadolivre.proxy.service.cache.CacheService;
 import com.mercadolivre.proxy.service.sliding.IpRateLimitImpl;
 import org.junit.Test;
@@ -25,12 +26,17 @@ import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.test.context.TestPropertySource;
 
 @RunWith(MockitoJUnitRunner.class)
+@TestPropertySource(locations="classpath:application-test.yaml")
 public class RateLimitServiceImplTest {
 
     @Mock
     CacheService cacheService;
+
+    @Mock
+    LimiterRateProperties properties;
 
     @InjectMocks
     private RateLimitServiceImpl service;
@@ -49,7 +55,7 @@ public class RateLimitServiceImplTest {
         when(cacheService.getBoundHash(limiterModel.getIp())).thenReturn(limiterModel);
         when(cacheService.boundZSetOps(limiterModel.getIp())).thenReturn(stubBoundZSetOperations());
 
-        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
+        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl(properties));
 
         assertTrue(actual);
     }
@@ -69,7 +75,7 @@ public class RateLimitServiceImplTest {
         when(cacheService.boundZSetOps(limiterModel.getIp())).thenReturn(stubBoundZSetOperations());
 
 
-        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
+        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl(properties));
 
         assertTrue(actual);
     }
@@ -88,7 +94,7 @@ public class RateLimitServiceImplTest {
         when(cacheService.getBoundHash(limiterModel.getIp())).thenReturn(null);
         when(cacheService.boundZSetOps(limiterModel.getIp())).thenReturn(null);
 
-        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
+        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl(properties));
 
         assertFalse(actual);
     }

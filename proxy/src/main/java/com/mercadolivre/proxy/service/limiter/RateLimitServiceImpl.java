@@ -61,5 +61,4 @@ public class RateLimitServiceImpl implements RateLimitService {
         return isAllowed;
     }
 
-
 }
