@@ -32,6 +32,19 @@ zuul:
 #          type:
 #            - origin
 #            - url
+
+---
+spring:
+  profiles: local, development
+
+ratelimit:
+  ipinterval: 10
+  pathinterval: 10
+  ipandpathinterval: 10
+  ipmaxrequest: 5
+  pathmaxrequest: 5
+  ipandpathmaxrequest: 5
+
 ---
 spring:
   profiles: local

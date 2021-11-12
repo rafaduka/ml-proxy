@@ -1,6 +1,7 @@
 package com.mercadolivre.proxy.filter;
 
 import com.mercadolivre.proxy.model.RateLimiterModel;
+import com.mercadolivre.proxy.properties.LimiterRateProperties;
 import com.mercadolivre.proxy.service.limiter.RateLimitService;
 import com.mercadolivre.proxy.service.sliding.IpAndPathRateLimitImpl;
 import com.mercadolivre.proxy.service.sliding.IpRateLimitImpl;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Component;
 public class PreFilterRateLimit extends ZuulFilter {
 
     private final RateLimitService rateLimitService;
+    private final LimiterRateProperties properties;
 
-    public PreFilterRateLimit(RateLimitService rateLimitService) {
+    public PreFilterRateLimit(RateLimitService rateLimitService, LimiterRateProperties properties) {
         this.rateLimitService = rateLimitService;
+        this.properties = properties;
     }
 
     @Override
@@ -29,9 +32,9 @@ public class PreFilterRateLimit extends ZuulFilter {
 
         RequestContext ctx = RequestContext.getCurrentContext();
 
-        boolean isIpAllowed = rateLimit(ctx, new IpRateLimitImpl());
-        boolean isPathAllowed = rateLimit(ctx, new PathRateLimitImpl());
-        boolean isIpAndPathAllowed = rateLimit(ctx, new IpAndPathRateLimitImpl());
+        boolean isIpAllowed = rateLimit(ctx, new IpRateLimitImpl(properties));
+        boolean isPathAllowed = rateLimit(ctx, new PathRateLimitImpl(properties));
+        boolean isIpAndPathAllowed = rateLimit(ctx, new IpAndPathRateLimitImpl(properties));
 
         if (hasSomeLimitExceeded(isIpAllowed, isPathAllowed, isIpAndPathAllowed)) {
             ctx.getRequest().setAttribute("hasLimitExceeded", Boolean.TRUE);

@@ -9,6 +9,13 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    environment:
+      RATELIMIT_IPINTERVAL: 11
+      RATELIMIT_PATHINTERVAL: 11
+      RATELIMIT_IPANDPATHINTERVAL: 11
+      RATELIMIT_IPMAXREQUEST: 6
+      RATELIMIT_PATHMAXREQUEST: 6
+      RATELIMIT_IPANDPATHMAXREQUEST: 6
     depends_on:
       - redis
       - monitor-service
