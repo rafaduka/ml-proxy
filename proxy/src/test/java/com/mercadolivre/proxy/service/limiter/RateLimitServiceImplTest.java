@@ -1,7 +1,8 @@
-package com.mercadolivre.proxy.service;
+package com.mercadolivre.proxy.service.limiter;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -11,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.collect.Sets;
 import com.mercadolivre.proxy.model.RateLimiterModel;
 import com.mercadolivre.proxy.service.cache.CacheService;
-import com.mercadolivre.proxy.service.limiter.RateLimitServiceImpl;
 import com.mercadolivre.proxy.service.sliding.IpRateLimitImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class RateLimitServiceImplTest {
     private RateLimitServiceImpl service;
 
     @Test
-    public void isAllowedByIp() {
+    public void when_ratelimit_allowed_ip_with_cache() {
 
         RateLimiterModel limiterModel = RateLimiterModel.builder()
                 .ip("127.0.0.1")
@@ -52,6 +52,45 @@ public class RateLimitServiceImplTest {
         boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
 
         assertTrue(actual);
+    }
+
+    @Test
+    public void when_ratelimit_allowed_ip_without_cache() {
+
+        RateLimiterModel limiterModel = RateLimiterModel.builder()
+                .ip("127.0.0.1")
+                .path("/somePath")
+                .windowInSeconds(60)
+                .maxRequestsInWindow(5)
+                .timeBetweenCalls(1)
+                .build();
+
+        when(cacheService.getBoundHash(limiterModel.getIp())).thenReturn(null);
+        when(cacheService.boundZSetOps(limiterModel.getIp())).thenReturn(stubBoundZSetOperations());
+
+
+        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
+
+        assertTrue(actual);
+    }
+
+    @Test
+    public void when_ratelimit_not_allowed_ip_without_cache() {
+
+        RateLimiterModel limiterModel = RateLimiterModel.builder()
+                .ip("127.0.0.1")
+                .path("/somePath")
+                .windowInSeconds(60)
+                .maxRequestsInWindow(5)
+                .timeBetweenCalls(1)
+                .build();
+
+        when(cacheService.getBoundHash(limiterModel.getIp())).thenReturn(null);
+        when(cacheService.boundZSetOps(limiterModel.getIp())).thenReturn(null);
+
+        boolean actual = service.isAllowed(limiterModel, new IpRateLimitImpl());
+
+        assertFalse(actual);
     }
 
 
