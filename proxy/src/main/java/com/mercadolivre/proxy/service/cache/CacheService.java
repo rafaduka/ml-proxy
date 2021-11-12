@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.BoundZSetOperations;
  * @param <T> the object to be used as value on cache
  *
  * @author Rafael Horácio
+ * @date 12/11/2021
  */
 public interface CacheService<T> {
 
