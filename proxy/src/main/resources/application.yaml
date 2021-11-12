@@ -14,25 +14,6 @@ zuul:
     api:
       path: /**
       url: https://api.mercadolibre.com/
-#  ratelimit:
-#    enabled: true
-#    repository: REDIS
-#    policy-list:
-#      api:
-#        - limit: 50000
-#          refresh-interval: 10
-#          type:
-#            - url
-#        - limit: 50
-#          refresh-interval: 10
-#          type:
-#            - origin
-#        - limit: 10
-#          refresh-interval: 60
-#          type:
-#            - origin
-#            - url
-
 ---
 spring:
   profiles: local, development
