@@ -11,45 +11,68 @@ These instructions will get you a copy of the project up and running on your loc
 
 https://www.docker.com/get-started
 
-### Usage
+## Using the Proxy
 
 #### Development Profile
 
 Run in the command line:
 ```
-docker-compose up
+git clone git@github.com:rafaduka/ml-proxy.git
+cd ml-proxy
+docker-compose up --build
 ```
 
-Test the proxy:
+Test the proxy, run in the command line:
 ```
 curl http://localhost:8080/categories/MLA5725
 ```
 
-Open statistics dashboard at http://localhost:4200
+## Statistics
 
-#### Local Profile
+#### To view statistics, go to curl in the terminal
+
+```
+curl -L -X GET 'http://localhost:8081/statistics'
+```
+Eg. Statistics are updated every 60 seconds, the endpoint "/statistics" 
+groups all successes, errors, and requests that were blocked
+
+
+#### To reset all stats, go to curl in the terminal
+
+```
+curl -L -X DELETE 'http://localhost:8081/statistics'
+```
+
+#### To register a metric in the statistics for testing, it is possible through curl below
+
+```
+curl -L -X POST 'http://localhost:8081/statistics' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+    "date":"123",
+    "success":1,
+    "fail":2,
+    "limited":3,
+    "duration":256,
+    "total":7
+}'
+```
+
+### Tests
+
+#### Local profile together with IDE (Intellij) usually for debugging
+
+(It is necessary to have MongoDB and Redis running) Execution can be performed with the code below
+
+```
+docker run --name mongo --rm -p 27017:27017 mongo:3.2.4
+docker run --name redis --rm -p 6379:6379 redis:alpine -> docker exec -it redis /bin/bash
+```
 
 Run in the command line:
 ```
 mvn spring-boot:run -Dspring.profiles.active="local"
-```
-
-Test the proxy:
-```
-curl http://localhost:8080/categories/MLA5725
-```
-
-Open statistics dashboard at http://localhost:4200
-
-### Tests
-
-#### Local profile
-
-(It is necessary to have MongoDB and Redis running)
-
-Run in the command line:
-```
-mvn '-Dtest=ProxyApplicationTests' test
 ```
 
 ## Solution diagram
@@ -85,7 +108,7 @@ With the formula below
 - [x] RateLimiter Proxy
 - [x] API Statistics
 - [ ] Swagger
-- [ ]
+- [ ] Load test over the proxy
 - [x] Readme 
 
 ## Author
