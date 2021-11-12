@@ -22,4 +22,10 @@ public interface StatisticService {
      * @return the created statistic.
      */
     Statistic create(Statistic statistic);
+
+    /**
+     * delete all statistics.
+     *
+     */
+    void deleteAll();
 }

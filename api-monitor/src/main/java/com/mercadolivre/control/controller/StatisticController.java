@@ -4,6 +4,7 @@ import com.mercadolivre.control.dto.StatisticDTO;
 import com.mercadolivre.control.entity.Statistic;
 import com.mercadolivre.control.service.StatisticService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/statistics")
 public class StatisticController {
 
-    private final StatisticService statisticService;
-    private final ModelMapper mapper;
+    private StatisticService statisticService;
+    private ModelMapper modelMapper;
 
     public StatisticController(StatisticService statisticService) {
         this.statisticService = statisticService;
-        this.mapper = new ModelMapper();
+        this.modelMapper = new ModelMapper();
     }
 
     @GetMapping
@@ -34,7 +35,7 @@ public class StatisticController {
         final List<Statistic> statistics = statisticService.findAll();
 
         final List<StatisticDTO> response = statistics.stream()
-                .map(statistic -> mapper.map(statistic, StatisticDTO.class))
+                .map(statistic -> modelMapper.map(statistic, StatisticDTO.class))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(response);
@@ -42,11 +43,16 @@ public class StatisticController {
 
     @PostMapping
     public ResponseEntity<StatisticDTO> create(@RequestBody @Valid StatisticDTO statisticDTO) {
+        Statistic statistic = statisticService.create(modelMapper.map(statisticDTO, Statistic.class));
+        StatisticDTO response = modelMapper.map(statistic, StatisticDTO.class);
 
-        final Statistic statistic = statisticService.create(mapper.map(statisticDTO, Statistic.class));
+        return new ResponseEntity(response, HttpStatus.CREATED);
+    }
 
-        final StatisticDTO response = mapper.map(statistic, StatisticDTO.class);
-
-        return ResponseEntity.ok(response);
+    @DeleteMapping
+    public ResponseEntity<StatisticDTO> deleteAll() {
+        statisticService.deleteAll();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
+
