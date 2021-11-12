@@ -1,7 +1,7 @@
 package com.mercadolivre.proxy.filter;
 
 import com.mercadolivre.proxy.model.RateLimiterModel;
-import com.mercadolivre.proxy.service.RateLimitService;
+import com.mercadolivre.proxy.service.limiter.RateLimitService;
 import com.mercadolivre.proxy.service.sliding.IpAndPathRateLimitImpl;
 import com.mercadolivre.proxy.service.sliding.IpRateLimitImpl;
 import com.mercadolivre.proxy.service.sliding.PathRateLimitImpl;

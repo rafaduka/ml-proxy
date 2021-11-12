@@ -1,4 +1,4 @@
-package com.mercadolivre.proxy.service;
+package com.mercadolivre.proxy.service.limiter;
 
 import com.mercadolivre.proxy.model.RateLimiterModel;
 import com.mercadolivre.proxy.service.sliding.SlidingWindowLimitable;

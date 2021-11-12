@@ -1,32 +1,28 @@
-package com.mercadolivre.proxy.service;
+package com.mercadolivre.proxy.service.limiter;
 
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import com.mercadolivre.proxy.model.RateLimiterModel;
+import com.mercadolivre.proxy.service.cache.CacheService;
 import com.mercadolivre.proxy.service.sliding.SlidingWindowLimitable;
-import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.BoundZSetOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RateLimitServiceImpl implements RateLimitService {
 
-    private RedisTemplate<String, RateLimiterModel> redisTemplate;
-    private RedisTemplate<String, Long> rateLimitRedisTemplate;
+    private final CacheService<RateLimiterModel> cache;
 
-    public RateLimitServiceImpl(RedisTemplate<String, RateLimiterModel> redisTemplate, RedisTemplate<String, Long> rateLimitRedisTemplate) {
-        this.redisTemplate = redisTemplate;
-        this.rateLimitRedisTemplate = rateLimitRedisTemplate;
+    public RateLimitServiceImpl(CacheService cache) {
+        this.cache = cache;
     }
 
     @Override
     public boolean isAllowed(RateLimiterModel rateLimiterModel, SlidingWindowLimitable rateLimitSlidingWindow) {
         boolean isAllowed = false;
         String key = rateLimitSlidingWindow.getKey(rateLimiterModel);
-        BoundHashOperations<String, String, RateLimiterModel> hashOps = redisTemplate.boundHashOps(key);
-        RateLimiterModel limiterModel = hashOps.get(key);
+        RateLimiterModel limiterModel = cache.getBoundHash(key);
 
         if (limiterModel == null) {
             limiterModel = RateLimiterModel.builder()
@@ -37,13 +33,13 @@ public class RateLimitServiceImpl implements RateLimitService {
                     .timeBetweenCalls(1)
                     .build();
 
-            hashOps.put(key, limiterModel);
+            cache.putBoundHash(key, limiterModel);
         }
 
-        BoundZSetOperations<String, Long> requestZSetOps = rateLimitRedisTemplate.boundZSetOps(key);
+        BoundZSetOperations<String, Long> zSetOps = cache.boundZSetOps(key);
 
 
-        if (requestZSetOps == null) {
+        if (zSetOps == null) {
             isAllowed = false;
         }
 
@@ -51,12 +47,12 @@ public class RateLimitServiceImpl implements RateLimitService {
         long currentTime = Instant.now().toEpochMilli();
         long currentWindowStartTime = currentTime - timeWindowInMilli;
 
-        requestZSetOps.removeRangeByScore(0.0, (double) currentWindowStartTime);
-        int requestSize = requestZSetOps.rangeByScore(currentWindowStartTime, currentTime).size();
+        zSetOps.removeRangeByScore(0.0, (double) currentWindowStartTime);
+        int requestSize = zSetOps.rangeByScore(currentWindowStartTime, currentTime).size();
 
         if ((requestSize + 1) <= rateLimitSlidingWindow.maxRequestsInWindow()) {
             isAllowed = true;
-            requestZSetOps.add(currentTime, currentTime);
+            zSetOps.add(currentTime, currentTime);
         }
 
         if (!isAllowed) {
