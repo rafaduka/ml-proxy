@@ -15,16 +15,16 @@ public class Statistic {
     private String id;
     private long total;
     private long success;
-    private long fail;
-    private long limited;
+    private long error;
+    private long rateLimit;
     private long duration;
     private Date date;
 
-    public Statistic(long total, long success, long fail, long limited, long duration, Date date) {
+    public Statistic(long total, long success, long error, long rateLimit, long duration, Date date) {
         this.total = total;
         this.success = success;
-        this.fail = fail;
-        this.limited = limited;
+        this.error = error;
+        this.rateLimit = rateLimit;
         this.duration = duration;
         this.date = date;
     }

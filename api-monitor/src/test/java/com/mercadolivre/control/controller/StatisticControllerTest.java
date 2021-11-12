@@ -79,8 +79,8 @@ public class StatisticControllerTest {
         StatisticDTO request = new StatisticDTO();
         request.setDate(Calendar.getInstance().getTime());
         request.setDuration(0);
-        request.setFail(1);
-        request.setLimited(1);
+        request.setError(1);
+        request.setRateLimit(1);
         request.setSuccess(1);
         request.setTotal(4);
 
