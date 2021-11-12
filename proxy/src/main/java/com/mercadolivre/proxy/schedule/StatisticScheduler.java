@@ -27,8 +27,11 @@ public class StatisticScheduler {
         this.statisticService = statisticService;
     }
 
+    /**
+     * 60000 = 1 min
+     * 3600000 = 60 min
+     */
     @Scheduled(fixedDelay = 60000)
-//    @Scheduled(fixedDelay = 3600000)
     public void sendDailyStatistics() {
         final StatisticDTO statistic = new StatisticDTO(
                 statisticService.getTotal(),
