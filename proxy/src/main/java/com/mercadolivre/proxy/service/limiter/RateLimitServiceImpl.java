@@ -38,9 +38,8 @@ public class RateLimitServiceImpl implements RateLimitService {
 
         BoundZSetOperations<String, Long> zSetOps = cache.boundZSetOps(key);
 
-
         if (zSetOps == null) {
-            isAllowed = false;
+            return false;
         }
 
         long timeWindowInMilli = TimeUnit.MILLISECONDS.convert(rateLimitSlidingWindow.windowInSeconds(), TimeUnit.SECONDS);
