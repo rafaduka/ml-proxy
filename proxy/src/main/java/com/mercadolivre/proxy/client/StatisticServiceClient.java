@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "monitor-service", path = "/statistics")
 public interface StatisticServiceClient {
 
+    /**
+     * Creates a new proxy usage statistics record
+     * @param statisticDTO summary of data within the window
+     */
     @RequestMapping(method = RequestMethod.POST)
     void create(@RequestBody StatisticDTO statisticDTO);
 }
