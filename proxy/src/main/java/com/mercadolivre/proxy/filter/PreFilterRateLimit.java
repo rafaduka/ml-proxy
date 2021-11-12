@@ -43,7 +43,7 @@ public class PreFilterRateLimit extends ZuulFilter {
         return null;
     }
 
-    private boolean rateLimit(RequestContext ctx, SlidingWindowLimitable strategy) {
+    private boolean rateLimit(RequestContext ctx, SlidingWindowLimitable sliding) {
 
         String ip = RequestUtils.getClientIp(ctx.getRequest());
         String path = ctx.getRequest().getRequestURI();
@@ -53,7 +53,7 @@ public class PreFilterRateLimit extends ZuulFilter {
                 .path(path)
                 .build();
 
-        return rateLimitService.isAllowed(model, strategy);
+        return rateLimitService.isAllowed(model, sliding);
     }
 
     private static boolean hasSomeLimitExceeded(boolean isIpAllowed, boolean isPathAllowed, boolean isIpAndPathAllowed) {
@@ -65,6 +65,10 @@ public class PreFilterRateLimit extends ZuulFilter {
         return "pre";
     }
 
+    /**
+     * Defines the order of execution of filters
+     * @return execution index
+     */
     @Override
     public int filterOrder() {
         return -3;

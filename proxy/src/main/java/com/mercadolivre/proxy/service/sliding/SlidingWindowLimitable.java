@@ -4,7 +4,7 @@ import com.mercadolivre.proxy.model.RateLimiterModel;
 import org.springframework.stereotype.Service;
 
 /**
- * Contrato para variação de controle para o algoritmo Sliding Window
+ * Contract for Control Variation for the Sliding Window Algorithm
  *
  * @author Rafael Horácio
  * @date 12/11/2021
@@ -15,8 +15,11 @@ public interface SlidingWindowLimitable {
     /**
      * Retrieve key according to implementation, can be IP, Path, IP+Path
      *
-     * @param model
-     * @return
+     * For example if it is IP, the key is 127.0.0.1.
+     * If it's PATH, it's /somepath
+     *
+     * @param model Property values ​​that can be built in through application.yaml or via docker-compose
+     * @return Redis/Cache key
      */
     String getKey(RateLimiterModel model);
 
