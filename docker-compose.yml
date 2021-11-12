@@ -11,12 +11,12 @@ services:
     restart: always
     depends_on:
       - redis
-      - control-service
+      - monitor-service
     command: --spring.profiles.active=development
     networks:
       - spring
 
-  control-service:
+  monitor-service:
     build:
       context: api-monitor
       dockerfile: Dockerfile

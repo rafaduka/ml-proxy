@@ -36,7 +36,7 @@ zuul:
 spring:
   profiles: local
 
-control-service:
+monitor-service:
   ribbon:
     eureka:
       enabled: false
@@ -47,8 +47,8 @@ spring:
   redis:
     host: redis
 
-control-service:
+monitor-service:
   ribbon:
     eureka:
       enabled: false
-    listOfServers: control-service:8081
+    listOfServers: monitor-service:8081

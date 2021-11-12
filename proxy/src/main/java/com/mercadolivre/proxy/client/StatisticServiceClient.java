@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-@FeignClient(name = "control-service", path = "/statistics")
+@FeignClient(name = "monitor-service", path = "/statistics")
 public interface StatisticServiceClient {
 
     @RequestMapping(method = RequestMethod.POST)

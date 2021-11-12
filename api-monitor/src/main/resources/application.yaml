@@ -1,6 +1,6 @@
 spring:
   application:
-    name: control-service
+    name: monitor-service
 
 server:
   port: 8081
