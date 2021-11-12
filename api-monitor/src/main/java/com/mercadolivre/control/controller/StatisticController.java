@@ -12,13 +12,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@CrossOrigin(origins = {
-        "http://localhost:8080",
-        "http://localhost:4200"
-})
 @RestController
 @RequestMapping("/statistics")
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:4200"})
 public class StatisticController {
 
     private StatisticService statisticService;
