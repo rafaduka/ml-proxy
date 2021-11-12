@@ -13,8 +13,6 @@ https://www.docker.com/get-started
 
 ## Using the Proxy
 
-#### Development Profile
-
 Run in the command line:
 ```
 git clone git@github.com:rafaduka/ml-proxy.git
@@ -31,6 +29,7 @@ curl http://localhost:8080/categories/MLA5725
 
 #### To view statistics, go to curl in the terminal
 
+Run in the command line:
 ```
 curl -L -X GET 'http://localhost:8081/statistics'
 ```
@@ -40,12 +39,14 @@ groups all successes, errors, and requests that were blocked
 
 #### To reset all stats, go to curl in the terminal
 
+Run in the command line:
 ```
 curl -L -X DELETE 'http://localhost:8081/statistics'
 ```
 
 #### To register a metric in the statistics for testing, it is possible through curl below
 
+Run in the command line:
 ```
 curl -L -X POST 'http://localhost:8081/statistics' \
 -H 'Content-Type: application/json' \
@@ -59,12 +60,11 @@ curl -L -X POST 'http://localhost:8081/statistics' \
 }'
 ```
 
-### Tests
-
-#### Local profile together with IDE (Intellij) usually for debugging
+### Tests local with (Intellij) usually for debugging
 
 (It is necessary to have MongoDB and Redis running) Execution can be performed with the code below
 
+Run in the command line:
 ```
 docker run --name mongo --rm -p 27017:27017 mongo:3.2.4
 docker run --name redis --rm -p 6379:6379 redis:alpine -> docker exec -it redis /bin/bash
@@ -80,7 +80,7 @@ mvn spring-boot:run -Dspring.profiles.active="local"
 ![alt text](docs/images/macro-flow.png)
 
 
-### Rate Limit Algorithm
+### Rate Limit Window Algorithm
 We count requests from each sender using multiple fixed time windows 1/60th the size of our rate limit’s time window.
 
 For example, if we have an hourly rate limit, we increment counters specific to the current Unix minute timestamp and 
