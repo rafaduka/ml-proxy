@@ -100,7 +100,7 @@ public class RateLimitServiceImplTest {
     }
 
 
-    private static BoundZSetOperations<String, Long> stubBoundZSetOperations() {
+    public static BoundZSetOperations<String, Long> stubBoundZSetOperations() {
         return new BoundZSetOperations<String, Long>() {
             @Override
             public String getKey() {

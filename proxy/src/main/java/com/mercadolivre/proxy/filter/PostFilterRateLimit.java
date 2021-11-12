@@ -24,6 +24,7 @@ public class PostFilterRateLimit extends ZuulFilter {
     @Override
     public Object run() {
         final Context context = Context.getInstance();
+        context.setRequest(RequestContext.getCurrentContext().getRequest());
         context.setDuration(System.currentTimeMillis() - context.getDuration());
         context.setResponse(RequestContext.getCurrentContext().getResponse());
         RequestContext ctx = RequestContext.getCurrentContext();
