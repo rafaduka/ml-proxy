@@ -67,13 +67,12 @@ curl -L -X POST 'http://localhost:8081/statistics' \
 Run in the command line:
 ```
 docker run --name mongo --rm -p 27017:27017 mongo:3.2.4
-docker run --name redis --rm -p 6379:6379 redis:alpine -> docker exec -it redis /bin/bash
+docker run --name redis --rm -p 6379:6379 redis:alpine
 ```
 
 Run in the command line:
 ```
 mvn spring-boot:run -Dspring.profiles.active="local"
-mvn spring-boot:run -Dspring.profiles.active="docker"
 ```
 
 ## Solution diagram
