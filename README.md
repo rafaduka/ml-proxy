@@ -30,9 +30,9 @@ you can edit the `docker-compose.yml` file:
 | RATELIMIT_IPINTERVAL          | 11            |  11 seconds  |
 | RATELIMIT_PATHINTERVAL        | 11            |  11 seconds  |
 | RATELIMIT_IPANDPATHINTERVAL   | 11            |  11 seconds  |
-| RATELIMIT_IPMAXREQUEST        | 11            |  6 seconds   |
-| RATELIMIT_PATHMAXREQUEST      | 11            |  6 seconds   |
-| RATELIMIT_IPANDPATHMAXREQUEST | 11            |  6 seconds   |
+| RATELIMIT_IPMAXREQUEST        | 6             |  Max 6 requests in 11 seconds|
+| RATELIMIT_PATHMAXREQUEST      | 6             |  Max 6 requests in 11 seconds|
+| RATELIMIT_IPANDPATHMAXREQUEST | 6             |  Max 6 requests in 11 seconds|
 
 >This setting takes precedence over the internal property
 
