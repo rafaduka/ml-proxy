@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 https://www.docker.com/get-started
 
-## Using the Proxy
+## Using the Proxy via Docker
 
 Run in the command line:
 ```
