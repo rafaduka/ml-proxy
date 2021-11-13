@@ -20,7 +20,7 @@ cd ml-proxy
 docker-compose up --build
 ```
 
-#### Enviorment
+#### Enviorments available
 
 If you want to change the limits by `IP`, `PATH` and `Combination`, 
 you can edit the `docker-compose.yml` file:
