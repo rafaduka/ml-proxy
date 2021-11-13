@@ -34,7 +34,7 @@ you can edit the `docker-compose.yml` file:
 | RATELIMIT_PATHMAXREQUEST      | 6             |  Max 6 requests in 11 seconds|
 | RATELIMIT_IPANDPATHMAXREQUEST | 6             |  Max 6 requests in 11 seconds|
 
->This setting takes precedence over the internal property
+>This setting takes precedence over the internal properties
 
 Test the proxy, run in the command line:
 ```
@@ -49,7 +49,7 @@ Run in the command line:
 ```
 curl -L -X GET 'http://localhost:8081/statistics'
 ```
-Eg. Statistics are updated every 60 seconds, the endpoint "/statistics" 
+Eg. Statistics are updated *every 60 seconds*, the endpoint "/statistics" 
 groups all successes, errors, and requests that were blocked
 
 
@@ -98,7 +98,11 @@ After `api-monitor` initialized, run the command below
 cd proxy
 mvn spring-boot:run -Dspring.profiles.active="local"
 ```
-
+To execute unit tests:
+```
+cd proxy
+mvn test
+```
 
 ## Solution diagram
 
