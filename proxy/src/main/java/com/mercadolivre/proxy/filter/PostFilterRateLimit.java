@@ -6,6 +6,8 @@ import com.mercadolivre.proxy.entity.Request;
 import com.mercadolivre.proxy.repository.RequestRepository;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostFilterRateLimit extends ZuulFilter {
 
+    Logger logger = LoggerFactory.getLogger(PostFilterRateLimit.class);
     private final RequestRepository repository;
 
     @Autowired
@@ -43,6 +46,7 @@ public class PostFilterRateLimit extends ZuulFilter {
                 context.getDuration(),
                 new Date()
         ));
+        logger.info("Saving request on cache, http status did {} ", context.getResponse().getStatus());
 
         return null;
     }

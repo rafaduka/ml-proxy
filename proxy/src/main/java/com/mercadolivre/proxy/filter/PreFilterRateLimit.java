@@ -10,10 +10,14 @@ import com.mercadolivre.proxy.service.sliding.SlidingWindowLimitable;
 import com.mercadolivre.proxy.util.RequestUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PreFilterRateLimit extends ZuulFilter {
+
+    Logger logger = LoggerFactory.getLogger(PreFilterRateLimit.class);
 
     private final RateLimitService rateLimitService;
     private final LimiterRateProperties properties;
@@ -25,6 +29,7 @@ public class PreFilterRateLimit extends ZuulFilter {
 
     @Override
     public Object run() {
+        logger.info("PreFilter to limit request init");
         final Context context = Context.getInstance();
         context.setRequest(RequestContext.getCurrentContext().getRequest());
 
@@ -38,8 +43,10 @@ public class PreFilterRateLimit extends ZuulFilter {
 
         if (hasSomeLimitExceeded(isIpAllowed, isPathAllowed, isIpAndPathAllowed)) {
             ctx.getRequest().setAttribute("hasLimitExceeded", Boolean.TRUE);
+            logger.info("Request from IP {}, has limit exceeded", RequestUtils.getClientIp(ctx.getRequest()));
         }
 
+        logger.info("PreFilter ipAllowed {}, pathAllowed {}, ipAndPathAllowed {}", isIpAllowed, isPathAllowed, isIpAllowed);
         return null;
     }
 
