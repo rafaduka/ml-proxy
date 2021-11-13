@@ -20,7 +20,21 @@ cd ml-proxy
 docker-compose up --build
 ```
 
-If you wish update 
+#### Enviorment
+
+If you want to change the limits by `IP`, `PATH` and `Combination`, 
+you can edit the `docker-compose.yml` file:
+
+| Environment                   | Value         | Description  |
+|:------------------------------|:-------------:|:------------:|
+| RATELIMIT_IPINTERVAL          | 11            |  11 seconds  |
+| RATELIMIT_PATHINTERVAL        | 11            |  11 seconds  |
+| RATELIMIT_IPANDPATHINTERVAL   | 11            |  11 seconds  |
+| RATELIMIT_IPMAXREQUEST        | 11            |  6 seconds   |
+| RATELIMIT_PATHMAXREQUEST      | 11            |  6 seconds   |
+| RATELIMIT_IPANDPATHMAXREQUEST | 11            |  6 seconds   |
+
+>This setting takes precedence over the internal property
 
 Test the proxy, run in the command line:
 ```
@@ -29,7 +43,7 @@ curl http://localhost:8080/categories/MLA5725
 
 ## Statistics
 
-#### To view statistics, go to curl in the terminal
+##### To view statistics, go to curl in the terminal
 
 Run in the command line:
 ```
@@ -39,14 +53,14 @@ Eg. Statistics are updated every 60 seconds, the endpoint "/statistics"
 groups all successes, errors, and requests that were blocked
 
 
-#### To reset all stats, go to curl in the terminal
+##### To reset all stats, go to curl in the terminal
 
 Run in the command line:
 ```
 curl -L -X DELETE 'http://localhost:8081/statistics'
 ```
 
-#### To register a metric in the statistics for testing, it is possible through curl below
+##### To register a metric in the statistics for testing, it is possible through curl below
 
 Run in the command line:
 ```
@@ -62,7 +76,7 @@ curl -L -X POST 'http://localhost:8081/statistics' \
 }'
 ```
 
-### Tests local with (Intellij) usually for debugging
+##### Tests local with (Intellij) usually for debugging
 
 (It is necessary to have MongoDB and Redis running) Execution can be performed with the code below
 
@@ -72,10 +86,19 @@ docker run --name mongo --rm -p 27017:27017 mongo:3.2.4
 docker run --name redis --rm -p 6379:6379 redis:alpine
 ```
 
+- After starting the services _(mongo and redis)_, run the command below in that order. 
 Run in the command line:
+
 ```
+cd api-monitor
 mvn spring-boot:run -Dspring.profiles.active="local"
 ```
+After `api-monitor` initialized, run the command below
+```
+cd proxy
+mvn spring-boot:run -Dspring.profiles.active="local"
+```
+
 
 ## Solution diagram
 
