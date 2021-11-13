@@ -3,7 +3,7 @@ spring:
     name: proxy-service
 ---
 spring:
-  profiles: local, development
+  profiles: local, docker
 
 server:
   port: 8080
@@ -16,7 +16,7 @@ zuul:
       url: https://api.mercadolibre.com/
 ---
 spring:
-  profiles: local, development
+  profiles: local, docker
 
 ratelimit:
   ipinterval: 10
@@ -37,7 +37,7 @@ monitor-service:
     listOfServers: localhost:8081
 ---
 spring:
-  profiles: development
+  profiles: docker
   redis:
     host: redis
 

@@ -14,12 +14,12 @@ spring:
   profiles: local
 ---
 spring:
-  profiles: development
+  profiles: docker
   data:
     mongodb:
       host: mongo
 ---
 spring:
-  profiles: development
+  profiles: docker
   redis:
     host: redis

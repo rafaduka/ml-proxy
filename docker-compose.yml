@@ -19,7 +19,7 @@ services:
     depends_on:
       - redis
       - monitor-service
-    command: --spring.profiles.active=development
+    command: --spring.profiles.active=docker
     networks:
       - spring
 
@@ -32,7 +32,7 @@ services:
     restart: always
     depends_on:
       - mongo
-    command: --spring.profiles.active=development
+    command: --spring.profiles.active=docker
     networks:
       - spring
 

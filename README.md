@@ -73,6 +73,7 @@ docker run --name redis --rm -p 6379:6379 redis:alpine -> docker exec -it redis 
 Run in the command line:
 ```
 mvn spring-boot:run -Dspring.profiles.active="local"
+mvn spring-boot:run -Dspring.profiles.active="docker"
 ```
 
 ## Solution diagram
