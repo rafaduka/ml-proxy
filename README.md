@@ -20,6 +20,8 @@ cd ml-proxy
 docker-compose up --build
 ```
 
+If you wish update 
+
 Test the proxy, run in the command line:
 ```
 curl http://localhost:8080/categories/MLA5725

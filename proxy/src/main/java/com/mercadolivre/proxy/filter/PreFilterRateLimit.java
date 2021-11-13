@@ -43,7 +43,7 @@ public class PreFilterRateLimit extends ZuulFilter {
 
         if (hasSomeLimitExceeded(isIpAllowed, isPathAllowed, isIpAndPathAllowed)) {
             ctx.getRequest().setAttribute("hasLimitExceeded", Boolean.TRUE);
-            logger.info("Request from IP {}, has limit exceeded", RequestUtils.getClientIp(ctx.getRequest()));
+            logger.warn("Request from IP {}, has limit exceeded", RequestUtils.getClientIp(ctx.getRequest()));
         }
 
         logger.info("PreFilter ipAllowed {}, pathAllowed {}, ipAndPathAllowed {}", isIpAllowed, isPathAllowed, isIpAllowed);
